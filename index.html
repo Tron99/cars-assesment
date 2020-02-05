@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      #game-container {
+        display: block;
+        width: 400px;
+        height: 100%;
+        margin: 0 auto;
+        background: #f2f2f2;
+        padding: 20px;
+      }
+
+      .player {
+        display: inline-block;
+      }
+
+      .screen {
+        background: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        margin: 10px;
+        height: 400px;
+        overflow-y: scroll;
+        padding: 5px;
+      }
+    </style>
+    <script>
+      var currentGame = [];
+
+      function generateDominoes() {
+        var dominoPool = [
+          [0, 1],
+          [0, 2],
+          [0, 3],
+          [0, 4],
+          [0, 5],
+          [0, 6],
+          [1, 1],
+          [1, 2],
+          [1, 3],
+          [1, 4],
+          [1, 5],
+          [1, 6],
+          [2, 2],
+          [2, 3],
+          [2, 4],
+          [2, 5],
+          [2, 6],
+          [3, 3],
+          [3, 4],
+          [3, 5],
+          [3, 6],
+          [4, 4],
+          [4, 5],
+          [4, 6],
+          [5, 5],
+          [5, 6],
+          [6, 6]
+        ];
+
+        var game = [];
+
+        for (let i = 0; i < 14; i++) {
+          for (let y = 0; y < 2; y++) {
+            let randNum = Math.floor(Math.random() * 28 + 1);
+            game.push({ player: y, domino: dominoPool[randNum] });
+            // players.splice(y, 0, dominoPool[randNum]);
+            dominoPool.slice(randNum);
+          }
+        }
+        console.log("game", game);
+        return game;
+      }
+      function validateDomino(domino, playerId) {
+        if (playerId === "player1" && isPlayer1Turn) {
+          if (
+            domino[0] <= 6 &&
+            domino[1] <= 6 &&
+            domino[0] >= 0 &&
+            domino[1] >= 0
+          ) {
+            currentGame.forEach(item => {
+              if (item[0] === domino[0] && item[1] === domino[1])
+                alert("Domino piece already played ,please try another piece");
+              return;
+            });
+          }
+        }
+      }
+
+      (function playGame(gameArray) {
+        let dominoGame = gameArray;
+        let randNum = Math.floor(Math.random() * 28 + 1);
+        let activeGame = [];
+        let turn = 1;
+        while (dominoGame.lenght !== 0) {
+          $("#player1").click(function() {
+            if(turn === 1){
+              var playerDomino = $(this).text()
+              playerDomino = playerDomino.split(' ')
+              validateDomino(playerDomino)
+              if(prevDomino[2] === playerDomino[1])
+              prevDomino = [playerDomino[0],playerDomino[2]]
+              turn = 2
+            }
+          });
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="game-container">
+      <div class="screen">dsdasdsadd</div>
+      <div id="players">
+        <div class="player">
+          <h1>Player 1</h1>
+          <p>Enter your next command</p>
+          <input type="text" name="" id="player1" />
+          <button onclick="generateDominoes()">Play</button>
+        </div>
+        <div class="player">
+          <h1>Player 2</h1>
+          <p>Enter your next command</p>
+          <input type="text" name="" id="player2" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
